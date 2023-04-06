@@ -1,4 +1,4 @@
-import Game from './lib/game'
+import { Game } from './lib/game'
 import { Renderer } from './lib/renderer'
 import './style.css'
 

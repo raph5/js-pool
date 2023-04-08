@@ -9,9 +9,8 @@ const game = new Game(renderer)
 
 function r() {
   requestAnimationFrame(() => {
-    // game.ball.rx += Math.PI / 2
-    game.ball.rx += 0.2
-    game.ball.ry += 0.2
+    game.ball.rx += 0.05
+    game.ball.ry += 0
     game.render()
     r()
   })

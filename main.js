@@ -7,4 +7,14 @@ const canvas = /** @type {HTMLCanvasElement} */ (document.getElementById("poolCa
 const renderer = new Renderer(canvas)
 const game = new Game(renderer)
 
-renderer.render()
+function r() {
+  requestAnimationFrame(() => {
+    // game.ball.rx += Math.PI / 2
+    game.ball.rx += 0.2
+    game.ball.ry += 0.2
+    game.render()
+    r()
+  })
+}
+
+r()

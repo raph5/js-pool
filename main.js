@@ -9,8 +9,6 @@ const game = new Game(renderer)
 
 function r() {
   requestAnimationFrame(() => {
-    game.ball.rx += 0.05
-    game.ball.ry += 0
     game.render()
     r()
   })

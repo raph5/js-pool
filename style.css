@@ -10,3 +10,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+#fps {
+  position: fixed;
+  top: 0;
+  left: 0;
+}

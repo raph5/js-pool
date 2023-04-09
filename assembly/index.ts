@@ -1,5 +1,14 @@
-// The entry file of your WebAssembly module.
+import type { pixelMap } from './types'
 
-export function add(a: i32, b: i32): i32 {
-  return a + b;
+// GameEvent (used as a parametter of the render)
+export class GameEvent {
+  constructor(
+    public id: string,
+    public props: Map<string, i32>
+  ) {}
+}
+
+// Render a new frame (with a set of events)
+export function render(events: GameEvent[]): pixelMap {
+  const time = Date.now()
 }

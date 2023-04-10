@@ -1,4 +1,4 @@
-import type { Layer } from '../renderer'
+import { Layer } from '../renderer'
 import { CARPET_COLOR, HIEGHT, WIDTH } from '../settings'
 
 export default class Carpet {
@@ -7,7 +7,7 @@ export default class Carpet {
     private layer: Layer
   ) {}
 
-  render() {
+  render(): void {
     for(let x=0; x<WIDTH; x++) {
       for(let y=0; y<HIEGHT; y++) {
         this.layer.set(x, y, CARPET_COLOR)

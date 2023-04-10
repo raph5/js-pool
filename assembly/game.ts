@@ -1,48 +1,52 @@
+import { Renderer } from './renderer'
 import Ball from './assets/ball'
 import Carpet from './assets/carpet'
 import { updatePos } from './physicsEngine'
 import { Layer } from './renderer'
+import { pixelMap } from './types'
 
-/** @type {HTMLElement} */
-// @ts-ignore
-const fpsMonitor = document.getElementById('fps')
-let fpsAvg = 25
 
-/** Manage game display */
+// Manage game display
 export class Game {
 
-  /**
-   * @param { import('./renderer').Renderer } renderer
-   */
-  constructor(renderer) {
+  private balls: Array<Ball>
+  private lastRender: i64 = Date.now()
+
+  constructor(
+    public renderer: Renderer
+  ) {
     // build the carpet
-    const carpetLayer = new Layer(renderer)
+    const carpetLayer = new Layer(renderer, 0)
     const carpet = new Carpet(carpetLayer)
     carpet.render()
 
     // place a ball at the center
-    const ballsLayer = new Layer(renderer)
-    this.balls = [ new Ball(ballsLayer, { x:100, y:150, vx: -50, vy: -100, rx: 0.3, strip: true, color: { r:100, g:10, b:120, a:255 } }) ]
-
-    this.renderer = renderer
-
-    this.lastRender = Date.now()
+    const ballsLayer = new Layer(renderer, 1)
+    this.balls = [
+      new Ball(ballsLayer, {
+        x:100,
+        y:150,
+        vx: -50,
+        vy: -100,
+        rx: 0.3,
+        ry: 0,
+        strip: true,
+        color: [ 100, 10, 120 ]
+      })
+    ]
   }
 
-  render() {
-    const time = Date.now()
+  render(): pixelMap {
+    const time: i64 = Date.now()
     const deltaTime = (time - this.lastRender) / 1000
     this.lastRender = time
     updatePos(this.balls, deltaTime)
     
-    for(const ball of this.balls) {
-      ball.render()
+    for(let i=0; i<this.balls.length; i++) {
+      this.balls[i].render()
     }
     
-    this.renderer.render()
-
-    fpsAvg = (9*fpsAvg+1/deltaTime) / 10
-    fpsMonitor.innerText = `${Math.round(fpsAvg)} fps`
+    return this.renderer.render()
   }
   
 }

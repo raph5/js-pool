@@ -1,5 +1,3 @@
-import { Game } from './lib/game'
-import { Renderer } from './lib/renderer'
 import './style.css'
 
 
@@ -7,7 +5,15 @@ import './style.css'
 const wasmModuleUrl = new URL('./build/debug.wasm', import.meta.url).href
 const module = await WebAssembly.instantiateStreaming(fetch(wasmModuleUrl))
 
-console.log(module.instance.exports.add(1, 5))
+// console.log(module.instance.exports.add(1, 5))
+
+
+
+const fpsMonitor = document.getElementById('fps')
+let fpsAvg = 25
+
+// fpsAvg = (9*fpsAvg+1/deltaTime) / 10
+// fpsMonitor.innerText = `${Math.round(fpsAvg)} fps`
 
 
 const canvas = /** @type {HTMLCanvasElement} */ (document.getElementById("poolCanvas"))

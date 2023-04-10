@@ -1,4 +1,4 @@
-import type { rgba } from "./types"
+import { rgba } from "./types"
 
 export const WIDTH = 800
 export const HIEGHT = 400

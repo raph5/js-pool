@@ -1,4 +1,6 @@
-import type { pixelMap } from './types'
+import { Game } from './game'
+import { Renderer } from './renderer'
+import { pixelMap } from './types'
 
 // GameEvent (used as a parametter of the render)
 export class GameEvent {
@@ -8,7 +10,12 @@ export class GameEvent {
   ) {}
 }
 
+
+const renderer = new Renderer()
+const game = new Game(renderer)
+
 // Render a new frame (with a set of events)
 export function render(events: GameEvent[]): pixelMap {
-  const time = Date.now()
+  // TODO: implement events
+  return game.render()
 }

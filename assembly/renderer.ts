@@ -1,13 +1,13 @@
 import { mixRgbaLayers } from './colors'
 import { HIEGHT, WIDTH } from "./settings"
-import type { coordinates2D, pixelMap, rgb, rgba } from './types'
+import { coordinates2D, pixelMap, rgb, rgba } from './types'
 
 
 // Layer
 export class Layer {
 
   // how to get a pixel : data[x][y]
-  private data = new Array<Array<rgba>>(WIDTH)
+  private data: Array<Array<rgba>> = new Array<Array<rgba>>(WIDTH)
   
   constructor(
     private renderer: Renderer,
@@ -38,21 +38,21 @@ export class Layer {
 // Renderer
 export class Renderer {
 
-  private layers = new Array<Layer>(10)
-  private changes = new Array<coordinates2D>(WIDTH*HIEGHT)
-  private _changesSet = new Set<string>()
+  private layers: Array<Layer> = new Array<Layer>(10)
+  private changes: Array<coordinates2D> = new Array<coordinates2D>(WIDTH*HIEGHT)
+  private _changesSet: Set<string> = new Set<string>()
 
   // Change all the pixel that changed from one frame to an other
-  render() {
-    const pixelMap: pixelMap = new Map<coordinates2D, rgb>()
+  render(): pixelMap {
+    const pxMap: pixelMap = new Map<coordinates2D, rgb>()
 
     for(let i=0; i<this.changes.length; i++) {
       const layersPixels = this.layers.map(l => l.get(this.changes[i][0], this.changes[i][1]))
       const pixelColor = mixRgbaLayers(layersPixels)
-      pixelMap.set(this.changes[i], [ pixelColor[0], pixelColor[1], pixelColor[2] ])
+      pxMap.set(this.changes[i], [ pixelColor[0], pixelColor[1], pixelColor[2] ])
     }
 
-    return pixelMap
+    return pxMap
   }
   
   addChange(x: i16, y: i16): void {

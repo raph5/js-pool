@@ -1,5 +1,5 @@
-import type { coordinates2D, coordinates3D, rgb, rgba } from "../types"
-import type { Layer } from "../renderer"
+import { coordinates2D, coordinates3D, rgb, rgba } from "../types"
+import { Layer } from "../renderer"
 import { mixRgbColors } from "../colors"
 import { BALL_RADIUS, BALL_WIDTH, RAY_CASTING_RESOLUTION } from "../settings"
 
@@ -36,7 +36,7 @@ const INTERSECTION_MATRIX = new Array<Array<coordinates3D>>(BALL_WIDTH*RAY_CASTI
 
 // Rotate a ball with a radius of 1
 // https://stackoverflow.com/questions/5278417/rotating-body-from-spherical-coordinates
-function rotationToCoordinates(rx: f32, ry: f32) {
+function rotationToCoordinates(rx: f32, ry: f32): Array<coordinates3D> {
   const _cosRy = Math.cos(ry)
   const topX = Math.sin(ry)
   const topY = -_cosRy*Math.sin(rx)
@@ -46,49 +46,52 @@ function rotationToCoordinates(rx: f32, ry: f32) {
   const leftY = Math.sin(rx + Math.PI/2)
   const leftZ = Math.cos(-rx + Math.PI/2)
 
-  return { top: [topX, topY, topZ], left: [leftX, leftY, leftZ] }
+  return [ [topX, topY, topZ], [leftX, leftY, leftZ] ]
 }
 
 
 
-/** Ball */
+interface BallOption {
+  x: i16,
+  y: i16,
+  rx: f32,
+  ry: f32,
+  vx: f32,
+  vy: f32,
+  strip: boolean,
+  color: rgb
+}
+
+
+// Ball
 export default class Ball {
 
-  public x
-  public y
-  public rx
-  public ry
-  public vx
-  public vy
-  public strip
-  public color
+  public x: i16
+  public y: i16
+  public rx: f32
+  public ry: f32
+  public vx: f32
+  public vy: f32
+  public strip: boolean
+  public color: rgb
 
   private lastRender: coordinates2D = [-1, -1]
 
   constructor(
     private layer: Layer,
-    option: {
-      x?: i8,
-      y?: i8,
-      rx?: f32,
-      ry?: f32,
-      vx?: f32,
-      vy?: f32,
-      strip?: boolean,
-      color?: rgb
-    } = {}
+    option: BallOption
   ) {
-    this.x = option.x ?? 0
-    this.y = option.y ?? 0
-    this.rx = option.rx ?? 0
-    this.ry = option.ry ?? 0
-    this.vx = option.vx ?? 0
-    this.vy = option.vy ?? 0
-    this.strip = option.strip ?? false
-    this.color = option.color ?? [ 0, 0, 0 ]
+    this.x = option.x
+    this.y = option.y
+    this.rx = option.rx
+    this.ry = option.ry
+    this.vx = option.vx
+    this.vy = option.vy
+    this.strip = option.strip
+    this.color = option.color
   }
   
-  render() {
+  render(): void {
     
     // Cleaning
     if( (this.x != this.lastRender[0] || this.y != this.lastRender[1]) && this.lastRender[0] != -1 ) {
@@ -117,15 +120,15 @@ export default class Ball {
               /** @type {coordinate3D} */
               // @ts-ignore
               const rayCoordinates = INTERSECTION_MATRIX[_x*RAY_CASTING_RESOLUTION + rayX][_y*RAY_CASTING_RESOLUTION + rayY]
-              const { top: topCoordinates, left: leftCoordinates } = rotationToCoordinates(this.rx, this.ry)
+              const coordinates = rotationToCoordinates(this.rx, this.ry)
               
-              const distanceToTop = Math.sqrt( (rayCoordinates[0] - topCoordinates[0])**2 + (rayCoordinates[1] - topCoordinates[1])**2 + (rayCoordinates[2] - topCoordinates[2])**2 )
+              const distanceToTop = Math.sqrt( (rayCoordinates[0] - coordinates[0][0])**2 + (rayCoordinates[1] - coordinates[0][1])**2 + (rayCoordinates[2] - coordinates[0][2])**2 )
               
               if(distanceToTop < 0.4) {
                 raysColor[rayX+rayY*RAY_CASTING_RESOLUTION] = [ 255, 255, 255 ] as rgb
               }
               else if(this.strip) {
-                const distanceToLeft = Math.sqrt( (rayCoordinates[0] - leftCoordinates[0])**2 + (rayCoordinates[1] - leftCoordinates[1])**2 + (rayCoordinates[2] - leftCoordinates[2])**2 )
+                const distanceToLeft = Math.sqrt( (rayCoordinates[0] - coordinates[1][0])**2 + (rayCoordinates[1] - coordinates[1][1])**2 + (rayCoordinates[2] - coordinates[1][2])**2 )
                 if(distanceToLeft < 0.8 || distanceToLeft > 1.81) {
                   raysColor[rayX+rayY*RAY_CASTING_RESOLUTION] = [ 255, 255, 255 ]
                 }

@@ -47,7 +47,17 @@ export class Renderer {
     const pxMap: pixelMap = new Map<coordinates2D, rgb>()
 
     for(let i=0; i<this.changes.length; i++) {
-      const layersPixels = this.layers.map(l => l.get(this.changes[i][0], this.changes[i][1]))
+      // const layersPixels: Array<rgba> = this.layers.map(l => l.get(this.changes[i][0], this.changes[i][1]))
+      const layersPixels = new Array<Array<f32>>(this.layers.length)
+      for(let j=0; j<this.layers.length; j++) {
+        const _px = this.layers[j].get( this.changes[i][0], this.changes[i][1] )
+        layersPixels[j] = [
+          f32(_px[0]),
+          f32(_px[1]),
+          f32(_px[2]),
+          f32(_px[3])
+        ]
+      }
       const pixelColor = mixRgbaLayers(layersPixels)
       pxMap.set(this.changes[i], [ pixelColor[0], pixelColor[1], pixelColor[2] ])
     }

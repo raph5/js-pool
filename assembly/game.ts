@@ -23,16 +23,7 @@ export class Game {
     // place a ball at the center
     const ballsLayer = new Layer(renderer, 1)
     this.balls = [
-      new Ball(ballsLayer, {
-        x:100,
-        y:150,
-        vx: -50,
-        vy: -100,
-        rx: 0.3,
-        ry: 0,
-        strip: true,
-        color: [ 100, 10, 120 ]
-      })
+      new Ball(ballsLayer, 100, 150, -50, -100, 0.3, 0, true, [100, 10, 120])
     ]
   }
 

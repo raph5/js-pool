@@ -8,8 +8,8 @@ export default class Carpet {
   ) {}
 
   render(): void {
-    for(let x=0; x<WIDTH; x++) {
-      for(let y=0; y<HIEGHT; y++) {
+    for(let x:i16=0; x<WIDTH; x++) {
+      for(let y:i16=0; y<HIEGHT; y++) {
         this.layer.set(x, y, CARPET_COLOR)
       }
     }

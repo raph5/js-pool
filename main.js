@@ -9,6 +9,7 @@ const renderer = new Renderer(canvas)
 const game = new Game(renderer)
 
 
+// redering function
 function render() {
   requestAnimationFrame(() => {
     game.render()

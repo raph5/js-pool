@@ -1,5 +1,6 @@
+import { defineConfig } from "vite"
+import { viteSingleFile } from "vite-plugin-singlefile"
 
-/** @type {import('vite').UserConfig} */
-export default {
-  
-}
+export default defineConfig({
+	plugins: [ viteSingleFile() ],
+})

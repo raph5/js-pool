@@ -1,7 +1,4 @@
 
-# Les règles
+# The Pool Game
 
-https://en.wikipedia.org/wiki/Eight-ball
-
-taille du tapis : 800*400px
-taille des boulles : 17px de dimètre
+available on https://raph.github.io/js-pool

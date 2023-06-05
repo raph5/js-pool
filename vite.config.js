@@ -2,7 +2,7 @@ import { defineConfig } from "vite"
 import { viteSingleFile } from "vite-plugin-singlefile"
 
 export default defineConfig({
-	base: 'https://raph.github.io/js-pool/',
+	base: 'https://raph5.github.io/js-pool/',
 })
 
 

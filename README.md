@@ -1,4 +1,4 @@
 
 # The Pool Game
 
-available on https://raph.github.io/js-pool
+available on https://raph5.github.io/js-pool

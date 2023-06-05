@@ -1,12 +1,14 @@
+import Canvas from './lib/canvas'
 import { Game } from './lib/game'
 import { Renderer } from './lib/renderer'
 import './style.css'
 
 
 // setup game
-const canvas = /** @type {HTMLCanvasElement} */ (document.getElementById("poolCanvas"))
+const canvasEl = /** @type {HTMLCanvasElement} */ (document.getElementById("poolCanvas"))
+const canvas = new Canvas(canvasEl)
 const renderer = new Renderer(canvas)
-const game = new Game(renderer)
+const game = new Game(renderer, canvas)
 
 
 // redering function
